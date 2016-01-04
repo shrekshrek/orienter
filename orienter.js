@@ -57,9 +57,11 @@
                     break;
             }
 
-            this.os = (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) ? 'ios' : '';
-            this.os = (navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Linux')) ? 'android' : '';
-
+            if(!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+                this.os = 'ios';
+            }else{
+                this.os = (navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Linux')) ? 'android' : '';
+            }
         },
 
         init: function () {
@@ -115,49 +117,39 @@
                     }
                     break;
                 case 'android':
-                    //switch (this.direction) {
-                    //    case 0:
-                    //        this.hori = event.alpha + event.gamma;
-                    //        if (event.gamma > 90){
-                    //            this.vert = 90 - event.beta;
-                    //        }else{
-                    //            this.vert = event.beta - 90;
-                    //        }
-                    //        break;
-                    //    case 90:
-                    //        if (event.gamma < 0) {
-                    //            this.hori = event.alpha - 90;
-                    //        } else {
-                    //            this.hori = event.alpha - 270;
-                    //        }
-                    //        if (event.gamma > 0) {
-                    //            this.vert = 270 - event.gamma;
-                    //        } else {
-                    //            this.vert = -90 - event.gamma;
-                    //        }
-                    //        break;
-                    //    case -90:
-                    //        if (event.gamma < 90) {
-                    //            this.hori = event.alpha - 90;
-                    //        } else {
-                    //            this.hori = event.alpha - 270;
-                    //        }
-                    //        this.vert = -90 + event.gamma;
-                    //        break;
-                    //}
-                    //break;
+                    switch (this.direction) {
+                        case 0:
+                            this.hori = event.alpha + event.gamma + 30;
+                            if (event.gamma > 90){
+                                this.vert = 90 - event.beta;
+                            }else{
+                                this.vert = event.beta - 90;
+                            }
+                            break;
+                        case 90:
+                            this.hori = event.alpha - 230;
+                            if (event.gamma > 0) {
+                                this.vert = 270 - event.gamma;
+                            } else {
+                                this.vert = -90 - event.gamma;
+                            }
+                            break;
+                        case -90:
+                            this.hori = event.alpha - 180;
+                            this.vert = -90 + event.gamma;
+                            break;
+                    }
+                    break;
             }
 
             this.hori += this.fix;
             this.hori %= 360;
             if (this.hori < 0) this.hori += 360;
 
-            //this.hori = Math.floor(this.hori * 100) / 100;
-            //this.vert = Math.floor(this.vert * 100) / 100;
-            this.hori = Math.floor(this.hori);
-            this.vert = Math.floor(this.vert);
+            this.hori = Math.round(this.hori);
+            this.vert = Math.round(this.vert);
 
-            if (this.handler) this.handler.apply(this, [{v: this.vert, h: this.hori, d: this.direction}]);
+            if (this.handler) this.handler.apply(this, [{a:Math.round(event.alpha), b:Math.round(event.beta), g:Math.round(event.gamma), h: this.hori, v: this.vert, d: this.direction}]);
         }
 
     });
