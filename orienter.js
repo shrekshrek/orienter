@@ -78,7 +78,11 @@
         },
 
         changeHandler: function (event) {
+            if(this.direction == window.orientation) return;
+
             this.direction = window.orientation;
+
+            if(this.change) this.change(this.direction);
             //alert(window.orientation);
         },
 
@@ -149,7 +153,7 @@
             this.lon = Math.round(this.lon);
             this.lat = Math.round(this.lat);
 
-            if (this.handler) this.handler.apply(this, [{a:Math.round(event.alpha), b:Math.round(event.beta), g:Math.round(event.gamma), lon: this.lon, lat: this.lat, dir: this.direction}]);
+            if (this.orient) this.orient.apply(this, [{a:Math.round(event.alpha), b:Math.round(event.beta), g:Math.round(event.gamma), lon: this.lon, lat: this.lat, dir: this.direction}]);
         }
 
     });
