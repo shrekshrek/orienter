@@ -33,8 +33,6 @@
     };
 
     extend(Orienter.prototype, {
-        //VERT: 'latical',//垂直
-        //HORI: 'lonzontal',//水平
         lon: 0,
         lat: 0,
         direction: 0,
@@ -57,9 +55,9 @@
                     break;
             }
 
-            if(!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+            if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
                 this.os = 'ios';
-            }else{
+            } else {
                 this.os = (navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Linux')) ? 'android' : '';
             }
         },
@@ -78,12 +76,16 @@
         },
 
         changeHandler: function (event) {
-            if(this.direction == window.orientation) return;
+            // if (this.direction == window.orientation) return;
 
             this.direction = window.orientation;
 
-            if(this.change) this.change(this.direction);
+            if (this.change) this.change(this.direction);
             //alert(window.orientation);
+        },
+
+        changeDirectionTo: function (n) {
+            this.direction = n;
         },
 
         orientHandler: function (event) {
@@ -124,9 +126,9 @@
                     switch (this.direction) {
                         case 0:
                             this.lon = event.alpha + event.gamma + 30;
-                            if (event.gamma > 90){
+                            if (event.gamma > 90) {
                                 this.lat = 90 - event.beta;
-                            }else{
+                            } else {
                                 this.lat = event.beta - 90;
                             }
                             break;
@@ -153,7 +155,14 @@
             this.lon = Math.round(this.lon);
             this.lat = Math.round(this.lat);
 
-            if (this.orient) this.orient.apply(this, [{a:Math.round(event.alpha), b:Math.round(event.beta), g:Math.round(event.gamma), lon: this.lon, lat: this.lat, dir: this.direction}]);
+            if (this.orient) this.orient.apply(this, [{
+                a: Math.round(event.alpha),
+                b: Math.round(event.beta),
+                g: Math.round(event.gamma),
+                lon: this.lon,
+                lat: this.lat,
+                dir: this.direction
+            }]);
         }
 
     });
