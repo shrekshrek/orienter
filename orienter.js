@@ -1,27 +1,23 @@
 /*!
  * VERSION: 0.2.0
  * DATE: 2016-10-20
- * GIT:https://github.com/shrekshrek/orienter
- *
- * @author: Shrek.wang, shrekshrek@gmail.com
+ * GIT: https://github.com/shrekshrek/orienter
+ * @author: Shrek.wang
  **/
 
 (function (factory) {
 
-    var root = (typeof self == 'object' && self.self == self && self) ||
-        (typeof global == 'object' && global.global == global && global);
-
     if (typeof define === 'function' && define.amd) {
-        define(['exports'], function (exports) {
-            root.Orienter = factory(root, exports);
+        define(['exports'], function(exports) {
+            window.Orienter = factory(exports);
         });
     } else if (typeof exports !== 'undefined') {
-        factory(root, exports);
+        factory(exports);
     } else {
-        root.Orienter = factory(root, {});
+        window.Orienter = factory({});
     }
 
-}(function (root, Orienter) {
+}(function (Orienter) {
 
     Orienter = function () {
         this.initialize.apply(this, arguments);
