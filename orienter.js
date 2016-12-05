@@ -32,11 +32,11 @@
         initialize: function (config) {
             var _config = config || {};
 
-            this.orient = _config.orient || function(){};
-            this.change = _config.change || function(){};
+            this.onOrient = _config.onOrient || function(){};
+            this.onChange = _config.onChange || function(){};
 
-            this._orient = this.orientHandler.bind(this);
-            this._change = this.changeHandler.bind(this);
+            this._orient = this._orient.bind(this);
+            this._change = this._change.bind(this);
 
             this.lon = 0;
             this.lat = 0;
@@ -71,17 +71,17 @@
             window.removeEventListener('orientationchange', this._change, false);
         },
 
-        changeHandler: function (event) {
+        _change: function (event) {
             this.direction = window.orientation;
 
-            this.change(this.direction);
+            this.onChange(this.direction);
         },
 
         changeDirectionTo: function (n) {
             this.direction = n;
         },
 
-        orientHandler: function (event) {
+        _orient: function (event) {
             switch (this.os) {
                 case 'ios':
                     switch (this.direction) {
@@ -148,14 +148,14 @@
             this.lon = Math.round(this.lon);
             this.lat = Math.round(this.lat);
 
-            this.orient.apply(this, [{
+            this.onOrient({
                 a: Math.round(event.alpha),
                 b: Math.round(event.beta),
                 g: Math.round(event.gamma),
                 lon: this.lon,
                 lat: this.lat,
                 dir: this.direction
-            }]);
+            });
         }
 
     };

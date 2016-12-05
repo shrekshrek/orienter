@@ -42,7 +42,7 @@
 <script>
     var o = new Orienter();
     var tip = document.getElementById('tip');
-    o.orient = function (obj) {
+    o.onOrient = function (obj) {
         tip.innerHTML =
                 'alpha:' + obj.a +
                 '<br>' + 'beta:' + obj.b +
