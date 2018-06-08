@@ -22,10 +22,8 @@
         initialize: function (config) {
             var _config = config || {};
 
-            this.onOrient = _config.onOrient || function () {
-            };
-            this.onChange = _config.onChange || function () {
-            };
+            this.onOrient = _config.onOrient || null;
+            this.onChange = _config.onChange || null;
 
             this._orient = this._orient.bind(this);
             this._change = this._change.bind(this);
@@ -66,7 +64,7 @@
         _change: function (event) {
             this.direction = window.orientation;
 
-            this.onChange(this.direction);
+            if (this.onChange) this.onChange(this.direction);
         },
 
         changeDirectionTo: function (n) {
@@ -140,7 +138,7 @@
             this.lon = Math.round(this.lon);
             this.lat = Math.round(this.lat);
 
-            this.onOrient({
+            if (this.onOrient) this.onOrient({
                 a: Math.round(event.alpha),
                 b: Math.round(event.beta),
                 g: Math.round(event.gamma),
